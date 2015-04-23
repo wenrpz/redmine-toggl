@@ -13,6 +13,7 @@ namespace :toggl do
         next if cf[0].value.nil?
         # sustituir el token dinamicamente
         token = cf[0].value
+        next if token.empty?
        	# validar si tiene token , de no tener continue
         toggl = Toggl.new token
         time_entries = toggl.get_time_entries(today)
@@ -22,6 +23,7 @@ namespace :toggl do
           if match
             duration = t.duration.to_f / 60 / 60
             issue = Issue.find(match[1].to_i)
+            next if issue.nil?
             existing_toggl_entry = TogglEntry.find_by_toggl_id t.id
             if existing_toggl_entry
               existing_hours = existing_toggl_entry.hours.round(2)
