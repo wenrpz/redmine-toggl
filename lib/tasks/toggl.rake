@@ -18,6 +18,7 @@ namespace :toggl do
         toggl = Toggl.new token
         time_entries = toggl.get_time_entries(today)
         time_entries.each do |t|
+          next if t.description.nil?
           date = Time.parse t.at
           match = t.description.match /#([0-9]*)/
           if match
